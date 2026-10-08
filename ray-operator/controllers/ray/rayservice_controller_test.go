@@ -173,9 +173,10 @@ var _ = Context("RayService env tests", func() {
 		})
 
 		It("Should create a pending RayCluster", func() {
+			// Allow time for controller startup and the requeue after adding the finalizer.
 			Eventually(
 				getPreparingRayClusterNameFunc(ctx, rayService),
-				time.Second*3, time.Millisecond*500).Should(Not(BeEmpty()), "Pending RayCluster name: %v", rayService.Status.PendingServiceStatus.RayClusterName)
+				time.Second*15, time.Millisecond*500).Should(Not(BeEmpty()), "Pending RayCluster name: %v", rayService.Status.PendingServiceStatus.RayClusterName)
 		})
 
 		It("Promote the pending RayCluster to the active RayCluster", func() {
